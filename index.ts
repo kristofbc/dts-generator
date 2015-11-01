@@ -200,6 +200,10 @@ export function generate(options: Options, sendMessage: (message: string) => voi
 	function writeDeclaration(declarationFile: ts.SourceFile) {
 		const filename = declarationFile.fileName;
 		const sourceModuleId = options.name + filenameToMid(filename.slice(baseDir.length, -5));
+		// Namespace will not begin by a /
+		if( sourceModuleId.charAt(0) === "/" ) {
+            sourceModuleId = sourceModuleId.substr(1);
+        }
 
 		/* For some reason, SourceFile.externalModuleIndicator is missing from 1.6-beta, so having
 		 * to use a sledgehammer on the nut */
